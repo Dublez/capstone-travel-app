@@ -9,7 +9,7 @@ const key = '&APPID=36d7234802a84134f886ebad20d776d0';
 const getURL = '/all';
 
 // POST Backend Address
-const postURL = '/addWeatherData';
+const postURL = '/addTravelData';
 
 // Create a new date instance dynamically with JS
 let d = new Date();

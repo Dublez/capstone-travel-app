@@ -19,7 +19,7 @@ const cors = require('cors');
 app.use(cors());
 
 // Initialize the main project folder
-app.use(express.static('website'));
+app.use(express.static('src/client'));
 
 // Setup Server
 const port = 8000;
@@ -35,7 +35,7 @@ function listening(){
 
 // Initialize all route with a callback function
 app.get('/all', getData);
-app.post('/addWeatherData', postData);
+app.post('/addTravelData', postData);
 
 // Callback function to complete GET '/all'
 function getData(req, res){
