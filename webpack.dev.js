@@ -10,6 +10,9 @@ module.exports = {
     // devServer: {
     //     contentBase: ['./src/client/views','./src/client/styles']
     // },
+    devServer: {
+        contentBase: ['./dist']
+    },
     output: {
         libraryTarget: 'var',
         library: 'Client'
@@ -22,7 +25,7 @@ module.exports = {
                 loader: "babel-loader"
             },
             {
-                test: /\.css$/,
+                test: /\.scss$/,
                 use: [ 'style-loader', 'css-loader', 'sass-loader']
             },
         ]
