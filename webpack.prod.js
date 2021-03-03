@@ -1,5 +1,6 @@
 const CssLoader = require('css-loader');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const SassLoader = require('sass-loader');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -17,8 +18,8 @@ module.exports = {
                 loader: "babel-loader"
             },
             {
-                test: /\.css$/,
-                use: [ MiniCssExtractPlugin.loader, 'css-loader']
+                test: /\.scss$/,
+                use: [ MiniCssExtractPlugin.loader, 'css-loader', 'sass-loader']
             },
         ]
     },
