@@ -21,7 +21,7 @@ module.exports = {
     module: {
         rules: [
             {
-                test: '/\.js$/',
+                test: /\.js$/,
                 exclude: /node_modules/,
                 loader: "babel-loader"
             },
@@ -31,6 +31,7 @@ module.exports = {
             },
             {
                 test: /\.(svg|png|jpe?g|gif)$/i,
+                // loader: 'file-loader',
                 loader: 'url-loader',
                 options: {
                     name: '/media/[name].[ext]'
