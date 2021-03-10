@@ -1,4 +1,8 @@
-import './styles/styles.scss';
+import './styles/base.scss';
+import './styles/header.scss';
+import './styles/facts.scss';
+import './styles/image.scss';
+import './styles/hourly.scss';
 import {onGenerate} from './js/app.js';
 // import './media/termometr.png';
 function importAll(r) {

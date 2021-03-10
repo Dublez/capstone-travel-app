@@ -1,0 +1,15 @@
+.facts_hour_list {
+  list-style-type: none;
+}
+
+.facts_hour {
+  display: inline-block;
+  text-align: center;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+.facts_hour_label, .facts_icon_small, .facts_hour_temp {
+  display: block;
+  margin: 0 auto;
+}

@@ -1,0 +1,45 @@
+#factsSection{
+    background-image: url("/src/client/media/cloudy.jpg");
+    background-size: 800px;
+    background-repeat: no-repeat;
+}
+
+.facts{
+    display: block;
+    // border: 1px solid black;
+}
+
+.date, .sky {
+    opacity: 0.75;
+}
+
+.facts_spacer {
+    height: 10px;
+}
+
+.spacer_line {
+    border-bottom: 1px solid white;
+}
+
+.facts_temp_wrap {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.facts_temp {
+    font-size: 4em;
+}
+
+.feels_wrap, .feels_label {
+    display: inline-block;
+}
+
+.feels {
+    line-height: 30px;
+}
+
+.condition {
+    display: inline-block;
+    margin-right: 50px;
+}

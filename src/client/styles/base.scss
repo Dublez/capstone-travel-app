@@ -1,0 +1,37 @@
+body{
+    display: flex;
+    flex-direction: column;
+    background: #fffff8;
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+@media(max-width: 600px){
+    main {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@media(min-width: 601px){
+    main {
+        display: flex;
+        flex-direction: row;
+    }
+}
+
+main {
+    flex-wrap: 20px;
+    margin-left: auto;
+    margin-right: auto;
+    color: white;
+}
+
+.section {
+    display: inline-block;
+    width: 400px;
+    // margin-left: auto;
+    margin-right: 10px;
+    border-radius: 20px;
+    border: 1px solid #32a1ce;
+    padding: 20px;
+}

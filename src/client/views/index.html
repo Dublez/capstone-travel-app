@@ -6,27 +6,88 @@
     <link href="https://fonts.googleapis.com/css?family=Oswald:400,600,700|Ranga:400,700&display=swap" rel="stylesheet">
   </head>
   <body>
-    <div id = "app">
-      <div class ="holder headline">
-        Weather Journal App
+    <header>
+      <div class="header-content">
+        <h1>Your weather journal</h1>
       </div>
-      <div class ="holder zip">
-        <label for="zip">Enter Zipcode here</label>
-        <input type="text" id="zip" placeholder="enter zip code here">
-      </div>
-      <div class ="holder feel">
-        <label for="feelings">How are you feeling today?</label>
-        <textarea class= "myInput" id="feelings" placeholder="Enter your feelings here" rows="9" cols="50"></textarea>
-        <button id="generate" type = "submit"> Generate </button>
-      </div>
-      <div class ="holder entry">
-        <div class = "title">Most Recent Entry</div>
-        <div id = "entryHolder">
-          <div id = "date"></div> 
-          <div id = "temp"></div>
-          <div id = "content"></div>
-        </div>
-      </div>
-    </div>
+      <div class="header_wrapper"></div>
+      <form class="submitForm" method="POST">
+        <!-- <div> -->
+          <input type="text" class="submit-form-element" id="location" name="location" placeholder="Where to?">
+          <input type="date" class="submit-form-element" id="date" name="date">
+          <button id="submitButton" type="submit">Check</button>
+        <!-- </div> -->
+      </form>
+    </header>
+    <main>
+      <section id="factsSection" class="section">
+          <div class="factsTitle facts">
+              <h2>Weather in Moscow</h2>
+          </div>
+          <div class="factsTime facts">
+              <date class="date">21 March 2021</date>
+           </div>
+           <div class="facts_spacer facts"></div>
+           <div class="facts_temp_wrap facts">
+              <span class="facts_temp">-4°</span>
+              <img class="facts_icon_large" src="http://openweathermap.org/img/wn/02d@2x.png">
+              <div class="feels_wrap">
+                <div class="sky">Cloudy, clear at times</div>
+                <div class="feels">
+                    <div class="feels_label">Feels like</div>
+                    <span class="feels_unit">-9°</span>
+                </div>
+            </div>
+          </div>
+          <div class="facts_spacer facts"></div>
+          <div class="facts_conditions_wrap facts">
+              <div class="wind_wrap condition">
+                  <div class="wind_title">Wind</div>
+                  <div class="wind_value">3.5 m/s</div>
+              </div>
+              <div class="humidity_wrap condition">
+                  <div class="humidity_title">Humidity</div>
+                  <div class="humidity_value">82%</div>
+              </div>
+              <div class="pressure_wrap condition">
+                  <div class="pressure_title">Pressure</div>
+                  <div class="pressure_value">741mm</div>
+              </div>
+          </div>
+          <div class="facts_spacer facts spacer_line"></div>
+          <div class="hourly_wrapper">
+            <ul class="facts_hour_list">
+              <li class="facts_hour">
+                <div class="facts_hour_label">11:00</div>
+                <img class="facts_icon_small" src="http://openweathermap.org/img/wn/02d.png">
+                <div class="facts_hour_temp">-3°</div>
+              </li>
+              <li class="facts_hour">
+                <div class="facts_hour_label">12:00</div>
+                <img class="facts_icon_small" src="http://openweathermap.org/img/wn/02d.png">
+                <div class="facts_hour_temp">-2°</div>
+              </li>
+              <li class="facts_hour">
+                <div class="facts_hour_label">13:00</div>
+                <img class="facts_icon_small" src="http://openweathermap.org/img/wn/01d.png">
+                <div class="facts_hour_temp">-2°</div>
+              </li>
+              <li class="facts_hour">
+                <div class="facts_hour_label">14:00</div>
+                <img class="facts_icon_small" src="http://openweathermap.org/img/wn/02d.png">
+                <div class="facts_hour_temp">-3°</div>
+              </li>
+              <li class="facts_hour">
+                <div class="facts_hour_label">15:00</div>
+                <img class="facts_icon_small" src="http://openweathermap.org/img/wn/03d.png">
+                <div class="facts_hour_temp">-3°</div>
+              </li>
+            </ul>
+          </div>
+      </section>
+      <section id="imageSection" class="section">
+        <!-- <img src="media/moscow.png"> -->
+      </section>
+  </main>
   </body>
 </html>

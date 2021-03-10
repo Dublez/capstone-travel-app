@@ -15,6 +15,8 @@ module.exports = {
         contentBase: ['./dist']
     },
     output: {
+        // publicPath: "/",
+        // path: __dirname + '/dist',
         libraryTarget: 'var',
         library: 'Client'
     },
