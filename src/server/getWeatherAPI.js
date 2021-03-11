@@ -5,18 +5,20 @@ dotenv.config();
 const fetch = require('node-fetch');
 
 /* Global Variables */
-//Base URL for Geonames API 
-const baseURL = 'http://api.geonames.org/searchJSON?maxRows=100&featureCode=PPLA&featureCode=PPLA2&featureCode=PPLA3&featureCode=PPLC&featureCode=PPL&fuzzy=0.8';
+//Base URL for Weatherbit API 
+const baseURL = 'http://api.weatherbit.io/v2.0/current';
 
-// Personal API Key for Geonames API
-let userName = process.env.GEONAMES_LOGIN;
+// Personal API Key for Weatherbit API
+let key = process.env.WEATHERBIT_API;
 
 
 /* Function to GET data */
 const getData = async (url='') => {
     const res = await fetch(url, {
         method: 'GET',
-        // headers: headers
+        headers: {
+            'Content-Type': 'application/json',
+        },
     });
     try {
         const analysisResult = await res.json();
@@ -27,17 +29,17 @@ const getData = async (url='') => {
 };
 
 
-const getGeoCodeAddress = async function(localityName){
-    let result = getData(baseURL + "&name=" + localityName +'&username=' + userName);
+const getWeatherData = async function(lat, lon){
+    let result = getData(baseURL + "?key=" + key +'&lat=' + lat+'&lon=' + lon);
     return result;
 }
 
 // 
-// getGeoCodeAddress('Lubertsy').then((res) => console.log(res));
+getWeatherData(55.94958, 37.50183).then((res) => console.log(res));
 // 
 // console.log("getGeoCoordinatesAPI.js:")
 // let result = await getGeoCodeAddress('Moscow');
 // console.log(result);
 
 
-module.exports = getGeoCodeAddress;
+module.exports = getWeatherData;

@@ -19,23 +19,24 @@
         <!-- </div> -->
       </form>
     </header>
+    <nav> <span id="country">Russian Federation</span>  >  <span id="adminName">Moscow Region</span>  >  <span class="location_name">Moscow</span></nav>
     <main>
       <section id="factsSection" class="section">
           <div class="factsTitle facts">
-              <h2>Weather in Moscow</h2>
+              <h2>Weather in <span class="location_name">Moscow</span></h2>
           </div>
           <div class="factsTime facts">
               <date class="date">21 March 2021</date>
            </div>
            <div class="facts_spacer facts"></div>
            <div class="facts_temp_wrap facts">
-              <span class="facts_temp">-4°</span>
-              <img class="facts_icon_large" src="http://openweathermap.org/img/wn/02d@2x.png">
+              <span class="facts_temp" id="temperature">-4°</span>
+              <img class="facts_icon_large" id="icon" src="http://openweathermap.org/img/wn/02d@2x.png">
               <div class="feels_wrap">
-                <div class="sky">Cloudy, clear at times</div>
+                <div class="sky" id="weather_code">Cloudy, clear at times</div>
                 <div class="feels">
                     <div class="feels_label">Feels like</div>
-                    <span class="feels_unit">-9°</span>
+                    <span class="feels_unit" id="feels_like">-9°</span>
                 </div>
             </div>
           </div>
@@ -43,15 +44,15 @@
           <div class="facts_conditions_wrap facts">
               <div class="wind_wrap condition">
                   <div class="wind_title">Wind</div>
-                  <div class="wind_value">3.5 m/s</div>
+                  <div class="wind_value" id="wind">3.5 m/s</div>
               </div>
               <div class="humidity_wrap condition">
                   <div class="humidity_title">Humidity</div>
-                  <div class="humidity_value">82%</div>
+                  <div class="humidity_value" id="humidity">82%</div>
               </div>
               <div class="pressure_wrap condition">
                   <div class="pressure_title">Pressure</div>
-                  <div class="pressure_value">741mm</div>
+                  <div class="pressure_value" id="pressure">741mm</div>
               </div>
           </div>
           <div class="facts_spacer facts spacer_line"></div>

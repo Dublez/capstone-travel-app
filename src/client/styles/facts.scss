@@ -1,5 +1,5 @@
 #factsSection{
-    background-image: url("/src/client/media/cloudy.jpg");
+    background-image: url("/src/client/media/clear_sky.jpg");
     background-size: 800px;
     background-repeat: no-repeat;
 }
@@ -14,11 +14,16 @@
 }
 
 .facts_spacer {
-    height: 10px;
+    height: 20px;
 }
 
 .spacer_line {
     border-bottom: 1px solid white;
+}
+
+.facts_icon_large {
+    width: 60px;
+    margin: auto 20px;
 }
 
 .facts_temp_wrap {

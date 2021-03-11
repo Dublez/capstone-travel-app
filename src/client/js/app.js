@@ -1,54 +1,37 @@
 /* Global Variables */
-//Base URL for OpenWeatherMap API 
-const baseURL = 'http://api.openweathermap.org/data/2.5/weather?units=imperial&zip=';
-
-// Personal API Key for OpenWeatherMap API
-const key = '&APPID=36d7234802a84134f886ebad20d776d0';
 
 // GET Backend Address
-const getURL = '/all';
+const getURL = '/getWeatherData';
 
 // POST Backend Address
-const postURL = '/addTravelData';
+const postURL = 'http://localhost:8080/fetchWeatherData';
 
 // Create a new date instance dynamically with JS
 let d = new Date();
 let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
 
 /* Function called by event listener */
-const onGenerate = async () => {
-    const zip = document.querySelector('#zip').value;
-    const res = getAPIData(baseURL,zip,key)
-                    .then(weatherData => postServerData(postURL, weatherData))
-                    .then(()=>updateUI());
+const onSubmit = async (event) => {
+    event.preventDefault();
+    const location = document.querySelector('#location').value;
+    const date = document.querySelector('#date').value;
+    const res = postAPIData(postURL, date, location)
+                    .then((locationData)=>updateUI(locationData));
     return res;
 }
 
-/* Function to GET Web API Data*/
-const getAPIData = async (baseURL='', zip='', key='') => {
-    const res = await fetch(baseURL+zip+key);
-    try{
-        const weatherData = await res.json();
-        const userResponse = document.querySelector('#feelings').value;
-        return {
-            temperature: weatherData.main.temp,
-            date: new Date(weatherData.dt * 1000),
-            userResponse: userResponse,
-        };
-    } catch(error) {
-        console.log('error', error);
-    }
-}
-
 /* Function to POST data */
-const postServerData = async (url='', weatherData) => {
+const postAPIData = async (url='', date, location) => {
     const res = await fetch(url, {
         method: 'POST',
         credentials: 'same-origin',
         headers: {
             'Content-Type': 'application/json',
         },
-        body: JSON.stringify(weatherData)
+        body: JSON.stringify({
+            date: date,
+            location: location
+        })
     });
     try {
         const weatherDataPosted = await res.json();
@@ -71,15 +54,39 @@ const getServerData = async (url='') => {
 }
 
 /* Function to update UI */
-const updateUI = async () => {
-    const weatherData = await getServerData(getURL);
-    const temperature = weatherData.temperature;
-    const date = weatherData.date;
-    const response = weatherData.userResponse;
-    document.querySelector('#date').innerHTML = date; 
-    document.querySelector('#temp').innerHTML = temperature+' Fr';
-    document.querySelector('#content').innerHTML = response;
+const updateUI = async (locationData) => {
+    // const weatherData = await getServerData(getURL);
+    const country = locationData.location.countryName;
+    const adminName = locationData.location.adminName;
+    const locationName = locationData.location.locationName;
+
+    const temperature = locationData.weather.temperature;
+    const feels_like = locationData.weather.feels_like;
+    const wind = locationData.weather.wind;
+    const humidity = locationData.weather.humidity;
+    const pressure = locationData.weather.pressure;
+    const weatherCode = locationData.weather.weather_code;
+    const icon = locationData.weather.icon;
+    const image = locationData.weather.image;
+
+    // const date = weatherData.date;
+    // const response = weatherData.userResponse;
+    document.querySelector('#country').innerHTML = country; 
+    document.querySelector('#adminName').innerHTML = adminName;
+    let location_nodes = document.querySelectorAll('.location_name');
+    for(let i = 0; i < location_nodes.length; i++){
+        location_nodes[i].innerHTML = locationName;
+    }
+
+    document.querySelector("#temperature").innerHTML = temperature;
+    document.querySelector("#feels_like").innerHTML = feels_like;
+    document.querySelector("#wind").innerHTML = wind;
+    document.querySelector("#humidity").innerHTML = humidity;
+    document.querySelector("#pressure").innerHTML = pressure;
+    document.querySelector("#weather_code").innerHTML = weatherCode;
+    document.querySelector("#icon").src = icon;
+    document.querySelector('#factsSection').style.backgroundImage="url(media/"+image+")";
     return;
 }
 
-export {onGenerate};
+export {onSubmit};
