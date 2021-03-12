@@ -6,10 +6,10 @@ const fetch = require('node-fetch');
 
 /* Global Variables */
 //Base URL for Weatherbit API 
-const baseURL = 'https://api.weatherbit.io/v2.0/forecast/daily';
+const baseURL = 'https://pixabay.com/api/';
 
 // Personal API Key for Weatherbit API
-let key = process.env.WEATHERBIT_API;
+let key = process.env.PIXABAY_API;
 
 
 /* Function to GET data */
@@ -29,17 +29,12 @@ const getData = async (url='') => {
 };
 
 
-const getWeatherData = async function(lat, lon){
-    let result = getData(baseURL + "?key=" + key +'&lat=' + lat+'&lon=' + lon);
+const getPictureData = async function(param){
+    let result = getData(baseURL + "?key=" + key +'&q=' + param);
     return result;
 }
 
 // 
-getWeatherData(55.94958, 37.50183).then((res) => console.log(res));
-// 
-// console.log("getGeoCoordinatesAPI.js:")
-// let result = await getGeoCodeAddress('Moscow');
-// console.log(result);
+getPictureData('Moscow').then((res) => console.log(res));
 
-
-module.exports = getWeatherData;
+module.exports = getPictureData;

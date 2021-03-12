@@ -1,6 +1,7 @@
 // Import dependencies
 const getGeoCodeAddress = require('./getGeoCoordinatesAPI.js');
 const getWeatherData = require('./getWeatherAPI.js');
+const getPictureData = require('./getPictureAPI.js');
 
 // Require Express to run server and routes
 const express = require('express');
@@ -52,7 +53,8 @@ class Location {
 }
 
 class Weather {
-    constructor(temperature, feels_like, wind, humidity, pressure, weather_code, icon, image){
+    constructor(date, temperature, feels_like, wind, humidity, pressure, weather_code, icon, image){
+        this.date = date,
         this.temperature = temperature;
         this.feels_like = feels_like;
         this.wind = wind;
@@ -71,6 +73,7 @@ app.post('/fetchWeatherData', async function(req, res){
     console.log(req.body);
     const str = encodeURI(req.body.location);
     let location;
+    let weather;
     const u0 = await getGeoCodeAddress(str)
         .then((result) => 
         {
@@ -83,14 +86,19 @@ app.post('/fetchWeatherData', async function(req, res){
             return location;
         })
         .then((location) => getWeatherData(location.lat, location.long))
-        .then((result) => {
-            let w = result.data[0];
+        .then(result => {
+            return result.data.find(
+                element => {return element.datetime==req.body.date;}
+            )
+        })
+        .then(w => {
             
             // Parsing data about weather code
             let weatherDescription = JSON.parse(weatherCodesData);
             let weatherImage = JSON.parse(weatherTypesData);
 
-            let weather = new Weather(
+            weather = new Weather(
+                w.datetime,
                 Math.round(w.temp) + '°', 
                 Math.round(w.app_temp) + '°',
                 Math.round(w.wind_spd) +' m/s',
@@ -100,11 +108,18 @@ app.post('/fetchWeatherData', async function(req, res){
                 `https://www.weatherbit.io/static/img/icons/${w.weather.icon}.png`,
                 weatherImage[w.weather.code]+'.jpg'
             );
+            // console.log(weather);
+        })
+        .then( () => {
+            let picture = getPictureData(str);
+            return picture;
+        })
+        .then(picture => {
             return {
                 location: location,
-                weather: weather
-            };
-            // console.log(weather);
+                weather: weather,
+                picture: picture.hits[0].largeImageURL
+            }
         })
         .then( r => {
             console.log(r);
