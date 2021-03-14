@@ -9,8 +9,12 @@
     // border: 1px solid black;
 }
 
-.date, .sky {
+#facts_date, .sky, #time {
     opacity: 0.75;
+}
+
+#time {
+    margin-left: 50px;
 }
 
 .facts_spacer {

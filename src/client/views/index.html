@@ -14,7 +14,8 @@
       <form class="submitForm" method="POST">
         <!-- <div> -->
           <input type="text" class="submit-form-element" id="location" name="location" placeholder="Where to?">
-          <input type="date" class="submit-form-element" id="date" name="date">
+          <input type="date" class="submit-form-element submit_date" id="date1" name="date">
+          <input type="date" class="submit-form-element submit_date" id="date2" name="date">
           <button id="submitButton" type="submit">Check</button>
         <!-- </div> -->
       </form>
@@ -27,6 +28,7 @@
           </div>
           <div class="factsTime facts">
               <span id="facts_date">21 March 2021</span>
+              <span id="time"></span>
            </div>
            <div class="facts_spacer facts"></div>
            <div class="facts_temp_wrap facts">
@@ -57,7 +59,7 @@
           </div>
           <div class="facts_spacer facts spacer_line"></div>
           <div class="hourly_wrapper">
-            <ul class="facts_hour_list">
+            <ul id="facts_hour_list">
               <li class="facts_hour">
                 <div class="facts_hour_label">11:00</div>
                 <img class="facts_icon_small" src="http://openweathermap.org/img/wn/02d.png">

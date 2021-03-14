@@ -4,7 +4,7 @@ import './styles/facts.scss';
 import './styles/image.scss';
 import './styles/hourly.scss';
 import './styles/nav.scss';
-import {onSubmit} from './js/app.js';
+import {time_offset, onSubmit} from './js/app.js';
 // import './media/termometr.png';
 
 function importAll(r) {
@@ -15,8 +15,8 @@ const images = importAll(require.context('./media/', false, /\.(png|gif|jpe?g|sv
 // Event listener to add function to existing HTML DOM element
 document.querySelector('#submitButton').addEventListener('click',onSubmit);
 
-//Adding limits to datePicker
-let dtElem = document.getElementById('date');
+// Adding limits to datePicker
+let dtElem = document.getElementById('date1');
 let minDate = new Date();
 let maxDate = new Date();
 maxDate.setDate(minDate.getDate() + 14);

@@ -1,7 +1,8 @@
 // Import dependencies
-const getGeoCodeAddress = require('./getGeoCoordinatesAPI.js');
-const getWeatherData = require('./getWeatherAPI.js');
+const {getGeoCodeAddress, getLocalTime}= require('./getGeoCoordinatesAPI.js');
+const {getWeatherData, getWeatherHourlyData} = require('./getWeatherAPI.js');
 const getPictureData = require('./getPictureAPI.js');
+const getCityData = require('./citiesAPI.js');
 
 // Require Express to run server and routes
 const express = require('express');
@@ -53,8 +54,9 @@ class Location {
 }
 
 class Weather {
-    constructor(date, temperature, feels_like, wind, humidity, pressure, weather_code, icon, image){
+    constructor(date, time, temperature, feels_like, wind, humidity, pressure, weather_code, icon, image){
         this.date = date,
+        this.time = time;
         this.temperature = temperature;
         this.feels_like = feels_like;
         this.wind = wind;
@@ -66,6 +68,15 @@ class Weather {
     }
 }
 
+class WeatherMini {
+    constructor(date, time, temperature, icon){
+        this.date = date;
+        this.time = time;
+        this.temperature = temperature;
+        this.icon = icon;
+    }
+}
+
 // Setup empty JS object to act as endpoint for all routes
 let projectData = {};
 
@@ -74,6 +85,11 @@ app.post('/fetchWeatherData', async function(req, res){
     const str = encodeURI(req.body.location);
     let location;
     let weather;
+    let time;
+    let weather_hourly = [];
+    let weatherDescription = JSON.parse(weatherCodesData);
+    let weatherImage = JSON.parse(weatherTypesData);
+
     const u0 = await getGeoCodeAddress(str)
         .then((result) => 
         {
@@ -85,20 +101,23 @@ app.post('/fetchWeatherData', async function(req, res){
             // console.log(location);
             return location;
         })
-        .then((location) => getWeatherData(location.lat, location.long))
-        .then(result => {
-            return result.data.find(
-                element => {return element.datetime==req.body.date;}
-            )
+        .then((location) => getLocalTime(location.lat, location.long))
+        .then((t) => {
+            time = t.time.substr(11,5);
         })
-        .then(w => {
-            
+        .then(() => getWeatherData(location.lat, location.long))
+        // .then(result => {
+        //     return result.data.find(
+        //         element => {return element.datetime.substring(0,10)==req.body.date;}
+        //     )
+        // })
+        .then(result => {
+            let w = result.data[0];
             // Parsing data about weather code
-            let weatherDescription = JSON.parse(weatherCodesData);
-            let weatherImage = JSON.parse(weatherTypesData);
 
             weather = new Weather(
-                w.datetime,
+                w.datetime.substr(0,10),
+                time,
                 Math.round(w.temp) + '°', 
                 Math.round(w.app_temp) + '°',
                 Math.round(w.wind_spd) +' m/s',
@@ -110,6 +129,21 @@ app.post('/fetchWeatherData', async function(req, res){
             );
             // console.log(weather);
         })
+        .then(() => getWeatherHourlyData(location.lat, location.long))
+        .then(result => {
+            let w = result.data;
+            let filteredArray = w.filter((element, index, array) => index % 4 == 0);
+            for(let i = 0; i < 5; i++){
+                let wi = filteredArray[i];
+                let wn = new WeatherMini(
+                    wi.timestamp_local.substr(0,10),
+                    wi.timestamp_local.substr(11,5),
+                    Math.round(wi.temp) + '°', 
+                    `https://www.weatherbit.io/static/img/icons/${wi.weather.icon}.png`
+                );
+                weather_hourly.push(wn);
+            }
+        })
         .then( () => {
             let picture = getPictureData(str);
             return picture;
@@ -118,6 +152,7 @@ app.post('/fetchWeatherData', async function(req, res){
             return {
                 location: location,
                 weather: weather,
+                weather_hourly: weather_hourly,
                 picture: picture.hits[0].largeImageURL
             }
         })

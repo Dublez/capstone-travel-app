@@ -35,6 +35,6 @@ const getPictureData = async function(param){
 }
 
 // 
-getPictureData('Moscow').then((res) => console.log(res));
+// getPictureData('Moscow').then((res) => console.log(res));
 
 module.exports = getPictureData;
