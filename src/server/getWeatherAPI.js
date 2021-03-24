@@ -6,9 +6,9 @@ const fetch = require('node-fetch');
 
 /* Global Variables */
 //Base URL for Weatherbit API
-const baseURL = 'https://api.weatherbit.io/v2.0/current'; 
+const currentURL = 'https://api.weatherbit.io/v2.0/current'; 
 const hourlyURL = 'https://api.weatherbit.io/v2.0/forecast/hourly'; 
-// const baseURL = 'https://api.weatherbit.io/v2.0/forecast/daily';
+const forecastURL = 'https://api.weatherbit.io/v2.0/forecast/daily';
 
 // Personal API Key for Weatherbit API
 let key = process.env.WEATHERBIT_API;
@@ -31,8 +31,8 @@ const getData = async (url='') => {
 };
 
 
-const getWeatherData = async function(lat, lon){
-    let result = getData(baseURL + "?key=" + key +'&lat=' + lat+'&lon=' + lon);
+const getCurrentWeatherData = async function(lat, lon){
+    let result = getData(currentURL + "?key=" + key +'&lat=' + lat+'&lon=' + lon);
     return result;
 }
 
@@ -41,13 +41,19 @@ const getWeatherHourlyData = async function(lat, lon){
     return result;
 }
 
+const getWeatherForecastData = async function(lat, lon){
+    let result = getData(forecastURL + "?key=" + key +'&lat=' + lat+'&lon=' + lon);
+    return result;
+}
+
 // 
 // getWeatherData(55.94958, 37.50183).then((res) => console.log(res));
 // getWeatherHourlyData(55.94958, 37.50183).then((res) => console.log(res));
-// 
+    getWeatherForecastData(55.94958, 37.50183).then((res) => console.log(res));
+
 // console.log("getGeoCoordinatesAPI.js:")
 // let result = await getGeoCodeAddress('Moscow');
 // console.log(result);
 
 
-module.exports = {getWeatherData, getWeatherHourlyData};
+module.exports = {getCurrentWeatherData, getWeatherHourlyData, getWeatherForecastData};

@@ -14,81 +14,151 @@
       <form class="submitForm" method="POST">
         <!-- <div> -->
           <input type="text" class="submit-form-element" id="location" name="location" placeholder="Where to?">
-          <input type="date" class="submit-form-element submit_date" id="date1" name="date">
-          <input type="date" class="submit-form-element submit_date" id="date2" name="date">
+          <input type="date" class="submit-form-element submit_date" id="date" name="date">
+          <!-- <input type="date" class="submit-form-element submit_date" id="date2" name="date"> -->
           <button id="submitButton" type="submit">Check</button>
         <!-- </div> -->
       </form>
     </header>
     <nav> <span id="country">Russian Federation</span>  >  <span id="adminName">Moscow Region</span>  >  <span class="location_name">Moscow</span></nav>
     <main>
-      <section id="factsSection" class="section">
-          <div class="factsTitle facts">
-              <h2>Weather in <span class="location_name">Moscow</span></h2>
-          </div>
-          <div class="factsTime facts">
-              <span id="facts_date">21 March 2021</span>
-              <span id="time"></span>
-           </div>
-           <div class="facts_spacer facts"></div>
-           <div class="facts_temp_wrap facts">
-              <span class="facts_temp" id="temperature">-4°</span>
-              <img class="facts_icon_large" id="icon" src="http://openweathermap.org/img/wn/02d@2x.png">
-              <div class="feels_wrap">
-                <div class="sky" id="weather_code">Cloudy, clear at times</div>
-                <div class="feels">
-                    <div class="feels_label">Feels like</div>
-                    <span class="feels_unit" id="feels_like">-9°</span>
+      <div class="main1">
+        <section id="factsSection" class="section">
+            <div class="factsTitle facts">
+                <h2>Weather in <span class="location_name">Moscow</span></h2>
+            </div>
+            <div class="factsTime facts">
+                <span id="facts_date">21 March 2021</span>
+                <span id="time"></span>
+            </div>
+            <div class="facts_spacer facts"></div>
+            <div class="facts_temp_wrap facts">
+                <span class="facts_temp" id="temperature">-4°</span>
+                <img class="facts_icon_large" id="icon" src="http://openweathermap.org/img/wn/02d@2x.png">
+                <div class="feels_wrap">
+                  <div class="sky" id="weather_code">Cloudy, clear at times</div>
+                  <div class="feels">
+                      <div class="feels_label">Feels like</div>
+                      <span class="feels_unit" id="feels_like">-9°</span>
+                  </div>
+              </div>
+            </div>
+            <div class="facts_spacer facts"></div>
+            <div class="facts_conditions_wrap facts">
+                <div class="wind_wrap condition">
+                    <div class="wind_title">Wind</div>
+                    <div class="wind_value" id="wind">3.5 m/s</div>
+                </div>
+                <div class="humidity_wrap condition">
+                    <div class="humidity_title">Humidity</div>
+                    <div class="humidity_value" id="humidity">82%</div>
+                </div>
+                <div class="pressure_wrap condition">
+                    <div class="pressure_title">Pressure</div>
+                    <div class="pressure_value" id="pressure">741mm</div>
                 </div>
             </div>
+            <div class="facts_spacer facts spacer_line"></div>
+            <div class="hourly_wrapper">
+              <ul id="facts_hour_list">
+                <li class="facts_hour">
+                  <div class="facts_hour_label">11:00</div>
+                  <img class="facts_icon_small" src="http://openweathermap.org/img/wn/02d.png">
+                  <div class="facts_hour_temp">-3°</div>
+                </li>
+                <li class="facts_hour">
+                  <div class="facts_hour_label">12:00</div>
+                  <img class="facts_icon_small" src="http://openweathermap.org/img/wn/02d.png">
+                  <div class="facts_hour_temp">-2°</div>
+                </li>
+                <li class="facts_hour">
+                  <div class="facts_hour_label">13:00</div>
+                  <img class="facts_icon_small" src="http://openweathermap.org/img/wn/01d.png">
+                  <div class="facts_hour_temp">-2°</div>
+                </li>
+                <li class="facts_hour">
+                  <div class="facts_hour_label">14:00</div>
+                  <img class="facts_icon_small" src="http://openweathermap.org/img/wn/02d.png">
+                  <div class="facts_hour_temp">-3°</div>
+                </li>
+                <li class="facts_hour">
+                  <div class="facts_hour_label">15:00</div>
+                  <img class="facts_icon_small" src="http://openweathermap.org/img/wn/03d.png">
+                  <div class="facts_hour_temp">-3°</div>
+                </li>
+              </ul>
+            </div>
+        </section>
+        <section id="imageSection" class="section">
+      </div>
+      <div class="main2">
+        <section id="forecastSection" class="section">
+          <div class="fc_title">
+            <h2>Weather Forecast for 16 days</h2>
           </div>
-          <div class="facts_spacer facts"></div>
-          <div class="facts_conditions_wrap facts">
-              <div class="wind_wrap condition">
-                  <div class="wind_title">Wind</div>
-                  <div class="wind_value" id="wind">3.5 m/s</div>
-              </div>
-              <div class="humidity_wrap condition">
-                  <div class="humidity_title">Humidity</div>
-                  <div class="humidity_value" id="humidity">82%</div>
-              </div>
-              <div class="pressure_wrap condition">
-                  <div class="pressure_title">Pressure</div>
-                  <div class="pressure_value" id="pressure">741mm</div>
-              </div>
-          </div>
-          <div class="facts_spacer facts spacer_line"></div>
-          <div class="hourly_wrapper">
-            <ul id="facts_hour_list">
-              <li class="facts_hour">
-                <div class="facts_hour_label">11:00</div>
-                <img class="facts_icon_small" src="http://openweathermap.org/img/wn/02d.png">
-                <div class="facts_hour_temp">-3°</div>
+          <div class="fc_daily_wrapper">
+            <ul id="fc_daily_list">
+              <li class="facts_day">
+                <div class="facts_day_label">Thu</div>
+                <div class="facts_day_date">March 24</div>
+                <img class="facts_day_icon_large" src="http://openweathermap.org/img/wn/02d.png">
+                <div class="facts_day_temp">-3°</div>
+                <div class="facts_night_temp">-11°</div>
+                <div class="facts_weather">Sunny</div>
               </li>
-              <li class="facts_hour">
-                <div class="facts_hour_label">12:00</div>
-                <img class="facts_icon_small" src="http://openweathermap.org/img/wn/02d.png">
-                <div class="facts_hour_temp">-2°</div>
+              <li class="facts_day">
+                <div class="facts_day_label">Fr</div>
+                <div class="facts_day_date">March 24</div>
+                <img class="facts_day_icon_large" src="http://openweathermap.org/img/wn/02d.png">
+                <div class="facts_day_temp">-5°</div>
+                <div class="facts_night_temp">-12°</div>
+                <div class="facts_weather">Sunny</div>
               </li>
-              <li class="facts_hour">
-                <div class="facts_hour_label">13:00</div>
-                <img class="facts_icon_small" src="http://openweathermap.org/img/wn/01d.png">
-                <div class="facts_hour_temp">-2°</div>
+              <li class="facts_day">
+                <div class="facts_day_label weekend">Sat</div>
+                <div class="facts_day_date">March 25</div>
+                <img class="facts_day_icon_large" src="http://openweathermap.org/img/wn/02d.png">
+                <div class="facts_day_temp">-1°</div>
+                <div class="facts_night_temp">-10°</div>
+                <div class="facts_weather">Mild snow</div>
               </li>
-              <li class="facts_hour">
-                <div class="facts_hour_label">14:00</div>
-                <img class="facts_icon_small" src="http://openweathermap.org/img/wn/02d.png">
-                <div class="facts_hour_temp">-3°</div>
+              <li class="facts_day">
+                <div class="facts_day_label weekend">Sun</div>
+                <div class="facts_day_date">March 26</div>
+                <img class="facts_day_icon_large" src="http://openweathermap.org/img/wn/02d.png">
+                <div class="facts_day_temp">-0°</div>
+                <div class="facts_night_temp">-10°</div>
+                <div class="facts_weather">Mild snow</div>
               </li>
-              <li class="facts_hour">
-                <div class="facts_hour_label">15:00</div>
-                <img class="facts_icon_small" src="http://openweathermap.org/img/wn/03d.png">
-                <div class="facts_hour_temp">-3°</div>
+              <li class="facts_day">
+                <div class="facts_day_label">Mon</div>
+                <div class="facts_day_date">March 27</div>
+                <img class="facts_day_icon_large" src="http://openweathermap.org/img/wn/02d.png">
+                <div class="facts_day_temp">+1°</div>
+                <div class="facts_night_temp">-8°</div>
+                <div class="facts_weather">Fog</div>
+              </li>
+              <li class="facts_day">
+                <div class="facts_day_label">Tue</div>
+                <div class="facts_day_date">March 28</div>
+                <img class="facts_day_icon_large" src="http://openweathermap.org/img/wn/02d.png">
+                <div class="facts_day_temp">+2°</div>
+                <div class="facts_night_temp">-7°</div>
+                <div class="facts_weather">Fog</div>
+              </li>
+              <li class="facts_day">
+                <div class="facts_day_label">Wed</div>
+                <div class="facts_day_date">March 29</div>
+                <img class="facts_day_icon_large" src="http://openweathermap.org/img/wn/02d.png">
+                <div class="facts_day_temp">+1°</div>
+                <div class="facts_night_temp">-8°</div>
+                <div class="facts_weather">Fog</div>
               </li>
             </ul>
           </div>
-      </section>
-      <section id="imageSection" class="section">
+          </div>
+        </section>
+      </div>
         <!-- <img src="media/moscow.png"> -->
       </section>
   </main>

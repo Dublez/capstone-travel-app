@@ -1,37 +1,52 @@
 body{
     display: flex;
     flex-direction: column;
-    background: #fffff8;
+    background: #eceef2;
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
+.main1, .main2 {
+    display: flex;
+    flex-wrap: 20px;
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    color: white;
+}
+
 @media(max-width: 600px){
-    main {
-        display: flex;
+    .main1, .main2 {
         flex-direction: column;
+    }
+
+    #forecastSection {
+        width: 450px;
     }
 }
 
 @media(min-width: 601px){
-    main {
-        display: flex;
+    .main1,.main2 {
         flex-direction: row;
+    }
+
+    #forecastSection {
+        width: 850px;
     }
 }
 
-main {
-    flex-wrap: 20px;
-    margin-left: auto;
-    margin-right: auto;
-    color: white;
-}
-
 .section {
+    min-width: 400px;
     display: inline-block;
-    width: 400px;
     // margin-left: auto;
     margin-right: 10px;
     border-radius: 20px;
-    border: 1px solid #32a1ce;
+    // border: 1px solid #32a1ce;
     padding: 20px;
+}
+
+#forecastSection{
+    display: block;
+    background-color: white;
+    color: black;
 }

@@ -1,6 +1,6 @@
 // Import dependencies
 const {getGeoCodeAddress, getLocalTime}= require('./getGeoCoordinatesAPI.js');
-const {getWeatherData, getWeatherHourlyData} = require('./getWeatherAPI.js');
+const {getCurrentWeatherData, getWeatherHourlyData} = require('./getWeatherAPI.js');
 const getPictureData = require('./getPictureAPI.js');
 const getCityData = require('./citiesAPI.js');
 
@@ -105,7 +105,7 @@ app.post('/fetchWeatherData', async function(req, res){
         .then((t) => {
             time = t.time.substr(11,5);
         })
-        .then(() => getWeatherData(location.lat, location.long))
+        .then(() => getCurrentWeatherData(location.lat, location.long))
         // .then(result => {
         //     return result.data.find(
         //         element => {return element.datetime.substring(0,10)==req.body.date;}

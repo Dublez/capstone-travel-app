@@ -4,6 +4,7 @@ import './styles/facts.scss';
 import './styles/image.scss';
 import './styles/hourly.scss';
 import './styles/nav.scss';
+import './styles/daily.scss';
 import {time_offset, onSubmit} from './js/app.js';
 // import './media/termometr.png';
 
