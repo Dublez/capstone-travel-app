@@ -5,10 +5,10 @@ dotenv.config();
 const fetch = require('node-fetch');
 
 /* Global Variables */
-//Base URL for Weatherbit API 
+//Base URL for ParseAPI 
 const baseURL = 'https://parseapi.back4app.com/classes/Continentscountriescities_City?order=name';
 
-// Personal API Key for Weatherbit API
+// Personal API Key for ParseAPI
 const where = encodeURIComponent(JSON.stringify({
     "country": {
       "__type": "Pointer",
@@ -42,7 +42,7 @@ const getCityData = async function(param){
 }
 
 // 
-getCityData().then((res) => console.log(res));
+// getCityData().then((res) => console.log(res));
 
 
 module.exports = getCityData;

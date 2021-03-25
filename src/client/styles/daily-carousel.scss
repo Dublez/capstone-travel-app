@@ -1,0 +1,108 @@
+// .fc_title{
+//     font: 700 1.6rem Arial;
+// }
+
+.daily_wrapper{
+  overflow: visible;
+  margin: 0 35px;
+  display: flex;
+  position: relative;
+  z-index: 1;
+}
+
+#daily_carousel{
+  display: block;
+	overflow: hidden;
+  // position: relative;
+  margin: 0 auto;
+}
+
+.daily-carousel__prev,
+.daily-carousel__next{
+    position: absolute;
+    top: 50%;
+    left: -35px;
+    right: auto;
+    width: 28px;
+    height: 28px;
+    background: url("/src/client/media/arrow.png");
+    filter: invert(100%);
+    opacity: 0.5;
+    background-size: cover;
+    background-repeat: no-repeat;
+    transform: rotate(180deg) translateY(+50%) translateZ(0);
+    cursor: pointer;
+    text-indent: 100%;
+    white-space: nowrap;
+    // overflow: hidden;
+    z-index: 3;
+    border: 0;
+}
+
+.daily-carousel__next {
+    right: -35px;
+    left: auto;
+    transform: translateY(-50%) translateZ(0);
+}
+
+.daily-carousel__prev:hover,
+.daily-carousel__next:hover {
+    opacity: 1;
+}
+
+#forecast_daily_list {
+    list-style-type: none;
+    padding: 0;
+    display: flex;
+    transition: transform .5s;
+    will-change: transform;
+    overflow: visible;
+    position: relative;
+    z-index: 1;
+    height: 100%;
+  }
+  
+  .forecast_day {
+    flex: 0 0 13%;
+    overflow: hidden;
+    // display: flex;
+    align-items: center;
+    justify-content: center;
+    display: inline-block;
+    text-align: center;
+    padding-left: 5px;
+    padding-right: 5px;
+  }
+
+  .forecast_day:hover {
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+  
+  .forecast_day_label, .forecast_day_date, .forecast_day_icon_large, .forecast_day_temp {
+    display: block;
+    margin: 0 auto;
+  }
+  
+  .forecast_day_icon_large {
+    width: 50px;
+  }
+
+  .forecast_day_label, .forecast_day_temp{
+      font-size: 1.3rem;
+  }
+
+  .weekend{
+      color: red
+  }
+  
+  .forecast_day_date, .forecast_night_temp{
+      color: #919191;
+      margin: 3px 0;
+      font-size: 0.9rem;
+  }
+
+  .forecast_weather{
+      color: #919191;
+      margin: 7px 0;
+      font-size: 0.8rem;
+  }

@@ -46,14 +46,30 @@ const getWeatherForecastData = async function(lat, lon){
     return result;
 }
 
+const getWeatherForecastDataForDate = async function(lat, lon, date){
+    let w0 = getData(forecastURL + "?key=" + key +'&lat=' + lat+'&lon=' + lon);
+    let w = w0.data;
+    let result;
+    try{
+        for (let i = 0; i < w.length; i++){
+            if(w[i].datetime.substr(0,10) == date){
+                result = w[i];
+                return result;
+            }
+        }
+    } catch (error){
+        console.log(`Date ${date} not found`);
+        return -1;
+    }
+}
 // 
 // getWeatherData(55.94958, 37.50183).then((res) => console.log(res));
 // getWeatherHourlyData(55.94958, 37.50183).then((res) => console.log(res));
-    getWeatherForecastData(55.94958, 37.50183).then((res) => console.log(res));
+// getWeatherForecastData(55.94958, 37.50183).then((res) => console.log(res));
 
 // console.log("getGeoCoordinatesAPI.js:")
 // let result = await getGeoCodeAddress('Moscow');
 // console.log(result);
 
 
-module.exports = {getCurrentWeatherData, getWeatherHourlyData, getWeatherForecastData};
+module.exports = {getCurrentWeatherData, getWeatherHourlyData, getWeatherForecastData, getWeatherForecastDataForDate};

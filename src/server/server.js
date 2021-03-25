@@ -1,8 +1,10 @@
 // Import dependencies
 const {getGeoCodeAddress, getLocalTime}= require('./getGeoCoordinatesAPI.js');
-const {getCurrentWeatherData, getWeatherHourlyData} = require('./getWeatherAPI.js');
+const {getWeatherHourlyData, getWeatherForecastData} = require('./getWeatherAPI.js');
 const getPictureData = require('./getPictureAPI.js');
-const getCityData = require('./citiesAPI.js');
+// const getCityData = require('./citiesAPI.js');
+const {getGeoCoordinatesAPI} = require('./getGeoCoordinatesByIPAPI.js');
+const dateFormat = require('dateformat');
 
 // Require Express to run server and routes
 const express = require('express');
@@ -68,11 +70,22 @@ class Weather {
     }
 }
 
-class WeatherMini {
+class WeatherHourly {
     constructor(date, time, temperature, icon){
         this.date = date;
         this.time = time;
         this.temperature = temperature;
+        this.icon = icon;
+    }
+}
+
+class WeatherDaily {
+    constructor(date, day, temp_day, temp_night, conditions, icon){
+        this.date = date;
+        this.day = day;
+        this.temp_day = temp_day;
+        this.temp_night = temp_night;
+        this.conditions = conditions;
         this.icon = icon;
     }
 }
@@ -83,10 +96,12 @@ let projectData = {};
 app.post('/fetchWeatherData', async function(req, res){
     console.log(req.body);
     const str = encodeURI(req.body.location);
+    // const date = encodeURI(req.body.date);
     let location;
     let weather;
     let time;
     let weather_hourly = [];
+    let weather_daily = [];
     let weatherDescription = JSON.parse(weatherCodesData);
     let weatherImage = JSON.parse(weatherTypesData);
 
@@ -105,21 +120,57 @@ app.post('/fetchWeatherData', async function(req, res){
         .then((t) => {
             time = t.time.substr(11,5);
         })
-        .then(() => getCurrentWeatherData(location.lat, location.long))
-        // .then(result => {
-        //     return result.data.find(
-        //         element => {return element.datetime.substring(0,10)==req.body.date;}
-        //     )
-        // })
+        .then(() => getWeatherHourlyData(location.lat, location.long))
         .then(result => {
-            let w = result.data[0];
+            let w = result.data;
+            let filteredArray = w;
+            // let filteredArray = w.filter((element, index, array) => index % 4 == 0);
+            for(let i = 0; i < w.length; i++){
+                let wi = filteredArray[i];
+                let wn = new WeatherHourly(
+                    wi.timestamp_local.substr(0,10),
+                    wi.timestamp_local.substr(11,5),
+                    Math.round(wi.temp) + '°', 
+                    `https://www.weatherbit.io/static/img/icons/${wi.weather.icon}.png`
+                );
+                weather_hourly.push(wn);
+            }
+        })
+        .then( () => getWeatherForecastData(location.lat, location.long))
+        .then(result => {
+            let w = result.data;
+            for(let i = 0; i < w.length; i++){
+                let wi = w[i];
+                let d = new Date(wi.datetime);
+                let month = dateFormat(d, "mmmm");
+                let date = dateFormat(d, "d");
+                let day = dateFormat(d, "ddd");
+                let wn = new WeatherDaily(
+                    month + " " + date,
+                    day,
+                    Math.round(wi.high_temp) + '°', 
+                    Math.round(wi.low_temp) + '°',
+                    wi.weather.description,
+                    `https://www.weatherbit.io/static/img/icons/${wi.weather.icon}.png`
+                );
+                weather_daily.push(wn);
+            }
+            return result;
+        })
+        .then(result => {
+            return result.data.find(
+                element => {return element.datetime.substring(0,10)==req.body.date;}
+            )
+        })
+        .then(result => {
+            let w = result;
             // Parsing data about weather code
 
             weather = new Weather(
                 w.datetime.substr(0,10),
                 time,
                 Math.round(w.temp) + '°', 
-                Math.round(w.app_temp) + '°',
+                Math.round(w.app_max_temp) + '°',
                 Math.round(w.wind_spd) +' m/s',
                 Math.round(w.rh) + ' %',
                 Math.round(w.pres*0.75) + ' mmHg',
@@ -128,21 +179,6 @@ app.post('/fetchWeatherData', async function(req, res){
                 weatherImage[w.weather.code]+'.jpg'
             );
             // console.log(weather);
-        })
-        .then(() => getWeatherHourlyData(location.lat, location.long))
-        .then(result => {
-            let w = result.data;
-            let filteredArray = w.filter((element, index, array) => index % 4 == 0);
-            for(let i = 0; i < 5; i++){
-                let wi = filteredArray[i];
-                let wn = new WeatherMini(
-                    wi.timestamp_local.substr(0,10),
-                    wi.timestamp_local.substr(11,5),
-                    Math.round(wi.temp) + '°', 
-                    `https://www.weatherbit.io/static/img/icons/${wi.weather.icon}.png`
-                );
-                weather_hourly.push(wn);
-            }
         })
         .then( () => {
             let picture = getPictureData(str);
@@ -153,6 +189,7 @@ app.post('/fetchWeatherData', async function(req, res){
                 location: location,
                 weather: weather,
                 weather_hourly: weather_hourly,
+                weather_daily: weather_daily,
                 picture: picture.hits[0].largeImageURL
             }
         })

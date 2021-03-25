@@ -5,6 +5,10 @@ body{
     font-family: -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
+.main1 {
+    max-width: 400px;
+}
+
 .main1, .main2 {
     display: flex;
     flex-wrap: 20px;

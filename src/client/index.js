@@ -2,11 +2,11 @@ import './styles/base.scss';
 import './styles/header.scss';
 import './styles/facts.scss';
 import './styles/image.scss';
-import './styles/hourly.scss';
+import './styles/hourly-carousel.scss';
 import './styles/nav.scss';
-import './styles/daily.scss';
+import './styles/daily-carousel.scss';
 import {time_offset, onSubmit} from './js/app.js';
-// import './media/termometr.png';
+import {Carousel} from './js/carousel.js';
 
 function importAll(r) {
     return r.keys().map(r);
@@ -17,7 +17,7 @@ const images = importAll(require.context('./media/', false, /\.(png|gif|jpe?g|sv
 document.querySelector('#submitButton').addEventListener('click',onSubmit);
 
 // Adding limits to datePicker
-let dtElem = document.getElementById('date1');
+let dtElem = document.getElementById('date');
 let minDate = new Date();
 let maxDate = new Date();
 maxDate.setDate(minDate.getDate() + 14);

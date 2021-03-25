@@ -1,5 +1,3 @@
-/* Global Variables */
-
 // GET Backend Address
 const getURL = '/getWeatherData';
 
@@ -10,10 +8,11 @@ const postURL = 'http://localhost:8080/fetchWeatherData';
 const onSubmit = async (event) => {
     event.preventDefault();
     const location = document.querySelector('#location').value;
-    const date1 = document.querySelector('#date1').value;
-    const date2 = document.querySelector('#date2').value;
-    const res = postAPIData(postURL, date1, location)
-                    .then((locationData)=>updateUI(locationData));
+    const date = document.querySelector('#date').value;
+    // const date2 = document.querySelector('#date2').value;
+    const res = postAPIData(postURL, date, location)
+                    .then((locationData) => saveLocationData(locationData))
+                    .then((locationData) => updateUI(locationData));
     return res;
 }
 
@@ -71,6 +70,8 @@ const updateUI = async (locationData) => {
 
     const hourly = locationData.weather_hourly;
 
+    const daily = locationData.weather_daily;
+
     const image = locationData.weather.image;
     const cityPicture = locationData.picture;
 
@@ -115,6 +116,41 @@ const updateUI = async (locationData) => {
         li.appendChild(a2);
         li.appendChild(a3);
         document.querySelector('#facts_hour_list').appendChild(li);
+    }
+
+    document.querySelector('#forecast_daily_list').innerHTML = '';
+    for(let i = 0; i < daily.length; i++){
+        let li = document.createElement('li');
+        li.classList.add('forecast_day');
+        let a1 = document.createElement('div');
+        a1.classList.add('forecast_day_label');
+        a1.innerHTML = daily[i].day;
+        if(daily[i].day == 'Sat' || daily[i].day == 'Sun'){
+            a1.classList.add('weekend');
+        }
+        let a2 = document.createElement('div');
+        a2.classList.add('forecast_day_date');
+        a2.innerHTML = daily[i].date;
+        let a3 = document.createElement('img');
+        a3.classList.add('forecast_day_icon_large');
+        a3.src = daily[i].icon;
+        let a4 = document.createElement('div');
+        a4.classList.add('forecast_day_temp');
+        a4.innerHTML = daily[i].temp_day;
+        let a5 = document.createElement('div');
+        a5.classList.add('forecast_night_temp');
+        a5.innerHTML = daily[i].temp_night;
+        let a6 = document.createElement('div');
+        a6.classList.add('forecast_weather');
+        a6.innerHTML = daily[i].conditions;
+
+        li.appendChild(a1);
+        li.appendChild(a2);
+        li.appendChild(a3);
+        li.appendChild(a4);
+        li.appendChild(a5);
+        li.appendChild(a6);
+        document.querySelector('#forecast_daily_list').appendChild(li);
     }
 
     document.querySelector('#factsSection').style.backgroundImage="url(media/"+image+")";
