@@ -2,8 +2,6 @@
 const {getGeoCodeAddress, getLocalTime}= require('./getGeoCoordinatesAPI.js');
 const {getWeatherHourlyData, getWeatherForecastData} = require('./getWeatherAPI.js');
 const getPictureData = require('./getPictureAPI.js');
-// const getCityData = require('./citiesAPI.js');
-const {getGeoCoordinatesAPI} = require('./getGeoCoordinatesByIPAPI.js');
 const dateFormat = require('dateformat');
 
 // Require Express to run server and routes
@@ -94,6 +92,7 @@ class WeatherDaily {
 // Setup empty JS object to act as endpoint for all routes
 let projectData = {};
 
+// This endpoint is called when the user clicks "Submit" button
 app.post('/fetchWeatherDataByCity', async function(req, res){
     console.log(req.body);
     const str = encodeURI(req.body.location);
@@ -113,6 +112,7 @@ app.post('/fetchWeatherDataByCity', async function(req, res){
         });
 })
 
+// This endpoint is called when the user chooses the list item in the daily caroosel
 app.post('/fetchWeatherDataByCoordinates', async function(req, res){
     l = req.body.location;
     let location = new Location(l.countryName, l.adminName, l.locationName, l.lat, l.long);
@@ -201,15 +201,32 @@ const getDataByLocation = async (location, cityName, forecastDate) => {
                 weatherImage[w.weather.code]+'.jpg'
             );
         })
-        .then( () => getPictureData(cityName))
-        .then(picture => {
+        .then(() => {
             r = {
                 location: location,
                 weather: weather,
                 weather_hourly: weather_hourly,
                 weather_daily: weather_daily,
-                picture: picture.hits[0].largeImageURL
+                picture: null
             }
-        });
+        })
+        .then(() => getPictureData(location.locationName))
+        .then((p) => {
+            if(p.hits.length != 0){
+                r.picture = p.hits[0].largeImageURL;
+            }
+        })
+        .then(() => getPictureData(location.countryName+ " flag"))
+        .then((p) => {
+            if(r.picture == null && p.hits.length != 0){
+                r.picture = p.hits[0].largeImageURL;
+            }
+        })
+        .then(() => getPictureData("Error"))
+        .then((p) => {
+            if(r.picture == null && p.hits.length != 0){
+                r.picture = p.hits[0].largeImageURL;
+            }
+        })
         return r;
 }

@@ -13,7 +13,12 @@
       <div class="header_wrapper"></div>
       <form class="submitForm" method="POST">
         <!-- <div> -->
-          <input type="text" class="submit-form-element" id="location" name="location" placeholder="Where to?">
+          <input type="text" class="submit-form-element" id="location" name="location" list = "cities" placeholder="Where to?">
+          <datalist id = "cities">
+            <!-- <option value = "Moscow"/>
+            <option value = "Chicago"/>
+            <option value = "San Giego"/> -->
+          </datalist>
           <input type="date" class="submit-form-element submit_date" id="date" name="date">
           <!-- <input type="date" class="submit-form-element submit_date" id="date2" name="date"> -->
           <button id="submitButton" type="submit">Check</button>
