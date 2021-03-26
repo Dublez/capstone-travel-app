@@ -80,9 +80,10 @@ class WeatherHourly {
 }
 
 class WeatherDaily {
-    constructor(date, day, temp_day, temp_night, conditions, icon){
+    constructor(date, dayOfMonth, dayOfWeek, temp_day, temp_night, conditions, icon){
         this.date = date;
-        this.day = day;
+        this.dayOfMonth = dayOfMonth;
+        this.dayOfWeek = dayOfWeek;
         this.temp_day = temp_day;
         this.temp_night = temp_night;
         this.conditions = conditions;
@@ -93,33 +94,55 @@ class WeatherDaily {
 // Setup empty JS object to act as endpoint for all routes
 let projectData = {};
 
-app.post('/fetchWeatherData', async function(req, res){
+app.post('/fetchWeatherDataByCity', async function(req, res){
     console.log(req.body);
     const str = encodeURI(req.body.location);
-    // const date = encodeURI(req.body.date);
     let location;
+
+    const u0 = await getGeoCodeAddress(str)
+        .then((result) => 
+        {
+            let l = result.geonames[0];
+            location = new Location(l.countryName, l.adminName1, l.name, l.lat, l.lng);
+            return location;
+        })
+        .then((location) => getDataByLocation(location, str, req.body.date))
+        .then( r => {
+            console.log(r);
+            res.send(r);
+        });
+})
+
+app.post('/fetchWeatherDataByCoordinates', async function(req, res){
+    l = req.body.location;
+    let location = new Location(l.countryName, l.adminName, l.locationName, l.lat, l.long);
+    await getDataByLocation(location, location.locationName, req.body.date)
+        .then(r => {
+            console.log(r);
+            res.send(r);
+        })
+})
+
+const getDataByLocation = async (location, cityName, forecastDate) => {
     let weather;
     let time;
     let weather_hourly = [];
     let weather_daily = [];
     let weatherDescription = JSON.parse(weatherCodesData);
     let weatherImage = JSON.parse(weatherTypesData);
-
-    const u0 = await getGeoCodeAddress(str)
-        .then((result) => 
-        {
-        // console.log(result);
-            let l = result.geonames[0];
-            location = new Location(l.countryName, l.adminName1, l.name, l.lat, l.lng);
-            // res.send(location);
-            // 
-            // console.log(location);
-            return location;
-        })
-        .then((location) => getLocalTime(location.lat, location.long))
+    let r;
+    await getLocalTime(location.lat, location.long)
         .then((t) => {
-            time = t.time.substr(11,5);
-        })
+            // If forecast date is today then 'time' will be rendered, otherwise it will be hidden
+            console.log(t);
+            if(t.time.substr(0,10) == forecastDate){
+                time = t.time.substr(11,5);
+            }
+            else{
+                time = '';
+            }
+        }
+        )
         .then(() => getWeatherHourlyData(location.lat, location.long))
         .then(result => {
             let w = result.data;
@@ -146,6 +169,7 @@ app.post('/fetchWeatherData', async function(req, res){
                 let date = dateFormat(d, "d");
                 let day = dateFormat(d, "ddd");
                 let wn = new WeatherDaily(
+                    wi.datetime,
                     month + " " + date,
                     day,
                     Math.round(wi.high_temp) + '°', 
@@ -157,11 +181,9 @@ app.post('/fetchWeatherData', async function(req, res){
             }
             return result;
         })
-        .then(result => {
-            return result.data.find(
-                element => {return element.datetime.substring(0,10)==req.body.date;}
+        .then(result => result.data.find(
+                element => {return element.datetime.substring(0,10)==forecastDate;})
             )
-        })
         .then(result => {
             let w = result;
             // Parsing data about weather code
@@ -178,23 +200,16 @@ app.post('/fetchWeatherData', async function(req, res){
                 `https://www.weatherbit.io/static/img/icons/${w.weather.icon}.png`,
                 weatherImage[w.weather.code]+'.jpg'
             );
-            // console.log(weather);
         })
-        .then( () => {
-            let picture = getPictureData(str);
-            return picture;
-        })
+        .then( () => getPictureData(cityName))
         .then(picture => {
-            return {
+            r = {
                 location: location,
                 weather: weather,
                 weather_hourly: weather_hourly,
                 weather_daily: weather_daily,
                 picture: picture.hits[0].largeImageURL
             }
-        })
-        .then( r => {
-            console.log(r);
-            res.send(r);
         });
-})
+        return r;
+}

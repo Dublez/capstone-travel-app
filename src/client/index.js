@@ -5,16 +5,18 @@ import './styles/image.scss';
 import './styles/hourly-carousel.scss';
 import './styles/nav.scss';
 import './styles/daily-carousel.scss';
-import {time_offset, onSubmit} from './js/app.js';
-import {Carousel} from './js/carousel.js';
+import {onSubmit, onClick, onLoad} from './js/app.js';
+
 
 function importAll(r) {
     return r.keys().map(r);
 }
 const images = importAll(require.context('./media/', false, /\.(png|gif|jpe?g|svg)$/));
 
-// Event listener to add function to existing HTML DOM element
+// Event listeners to add function to existing HTML DOM elements
 document.querySelector('#submitButton').addEventListener('click',onSubmit);
+document.querySelectorAll('.forecast_day').forEach(item => item.addEventListener('click', onClick));
+window.addEventListener('load', onLoad);
 
 // Adding limits to datePicker
 let dtElem = document.getElementById('date');

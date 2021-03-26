@@ -53,15 +53,19 @@ function Carousel(setting) {
     this.next_slide = () => {
         ++privates.opt.position;
 
-        if(privates.opt.position >= privates.opt.max_position) {
+        if(privates.opt.position >= privates.opt.max_position / 2) {
             privates.opt.position = 0;
         }
 
         privates.sel.wrap.style["transform"] = `translateX(-${privates.opt.position*privates.opt.scroll_percent}%)`;
-    };
+	};
+	
+	this.updateMaxPosition = () => {
+		privates.opt.max_position = document.querySelector(privates.setting.wrap).children.length;
+	}
 }
 
-new Carousel({
+const hourlyCarousel = new Carousel({
 	"main": "#hourly-carousel",
 	"wrap": "#facts_hour_list",
 	"prev": ".hourly-carousel__prev",
@@ -69,7 +73,7 @@ new Carousel({
     "scroll_percent": 40
 });
 
-new Carousel({
+const dailyCarousel = new Carousel({
 	"main": "#daily-carousel",
 	"wrap": "#forecast_daily_list",
 	"prev": ".daily-carousel__prev",
@@ -77,4 +81,4 @@ new Carousel({
     "scroll_percent": 28
 });
 
-export {Carousel};
+export {Carousel, hourlyCarousel, dailyCarousel};
