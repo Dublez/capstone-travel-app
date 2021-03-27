@@ -1,67 +1,64 @@
-
 // Adding code for hourly carousel
-function Carousel(setting) {
+class Carousel {
+	constructor(setting){
+	
+		/* Privates properties */
+		this.setting = setting;
 
-	/* Scope privates methods and properties */
-	let privates = {};
+		this.sel = {
+			"main": document.querySelector(this.setting.main),
+			"wrap": document.querySelector(this.setting.wrap),
+			"children": document.querySelector(this.setting.wrap).children,
+			"prev": document.querySelector(this.setting.prev),
+			"next": document.querySelector(this.setting.next),
+		};
 
-	/* Privates properties */
-	privates.setting = setting;
+		this.opt = {
+			"position": 0,
+			"scroll_percent": this.setting.scroll_percent,
+			"max_position": document.querySelector(this.setting.wrap).children.length
+		};
 
-	privates.sel = {
-		"main": document.querySelector(privates.setting.main),
-		"wrap": document.querySelector(privates.setting.wrap),
-		"children": document.querySelector(privates.setting.wrap).children,
-		"prev": document.querySelector(privates.setting.prev),
-        "next": document.querySelector(privates.setting.next),
-	};
+		// Control
+		if(this.sel.prev !== null) {
+			this.sel.prev.addEventListener('click', () => {
+				this.prev_slide();
+			});
+		}
 
-	privates.opt = {
-        "position": 0,
-        "scroll_percent": privates.setting.scroll_percent,
-		"max_position": document.querySelector(privates.setting.wrap).children.length
-	};
-
-	// Control
-	if(privates.sel.prev !== null) {
-		privates.sel.prev.addEventListener('click', () => {
-			this.prev_slide();
-		});
+		if(this.sel.next !== null) {
+			this.sel.next.addEventListener('click', () => {
+				this.next_slide();
+			});
+		}
 	}
-
-	if(privates.sel.next !== null) {
-		privates.sel.next.addEventListener('click', () => {
-			this.next_slide();
-		});
-	}
-
     /* Public methods */
     // Prev slide
-    this.prev_slide = () => {
-        --privates.opt.position;
+    prev_slide = () => {
+        --this.opt.position;
 
-        if(privates.opt.position < 0) {
-            privates.sel.wrap.classList.add('s-notransition');
-            privates.opt.position = privates.opt.max_position - 1;
+        if(this.opt.position < 0) {
+            this.sel.wrap.classList.add('s-notransition');
+            this.opt.position = this.opt.max_position - 1;
         }
 
-        privates.sel.wrap.style["transform"] = `translateX(-${privates.opt.position*privates.opt.scroll_percent}%)`;
+        this.sel.wrap.style["transform"] = `translateX(-${this.opt.position*this.opt.scroll_percent}%)`;
     };
 
 
     // Next slide
-    this.next_slide = () => {
-        ++privates.opt.position;
+    next_slide = () => {
+        ++this.opt.position;
 
-        if(privates.opt.position >= privates.opt.max_position / 2) {
-            privates.opt.position = 0;
+        if(this.opt.position >= this.opt.max_position / 2) {
+            this.opt.position = 0;
         }
 
-        privates.sel.wrap.style["transform"] = `translateX(-${privates.opt.position*privates.opt.scroll_percent}%)`;
+        this.sel.wrap.style["transform"] = `translateX(-${this.opt.position*this.opt.scroll_percent}%)`;
 	};
 	
-	this.updateMaxPosition = () => {
-		privates.opt.max_position = document.querySelector(privates.setting.wrap).children.length;
+	updateMaxPosition = () => {
+		this.opt.max_position = document.querySelector(this.setting.wrap).children.length;
 	}
 }
 
