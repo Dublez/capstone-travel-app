@@ -97,7 +97,6 @@ describe("Testing the app.js functionality", () => {
         const target = document.querySelector('.forecast_day');
         Object.assign(clickEvent, {preventDefault: jest.fn()});
         Object.defineProperty(clickEvent, 'target', {value: target, enumerable: true});
-        // const app = require('../src/client/js/app');
         const click = jest.spyOn(app, 'onClick');
 
         app.onClick(clickEvent);
